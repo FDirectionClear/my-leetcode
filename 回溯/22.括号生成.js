@@ -10,6 +10,7 @@
 
 /**
  * 步骤（我总结的）：
+ * 0. 构思：先想想子情况是什么，如何去构建这个树？
  * 1. 判断可行方案，或说终止条件
  *  1.1 终止条件又分为求解条件（可行条件）、退出条件（不可行条件）
  * 2. 判断回溯方法backtrack的参数是什么
@@ -52,3 +53,28 @@ var generateParenthesis = function(n) {
       track.pop()
   }
 };
+
+
+var myGenerateParenthesis = function (n) {
+  const result = []
+  let track = []
+
+  function backtrack(supPlusL, suplusR, track, result) {
+    if (supPlusL > suplusR) return false
+    if (supPlusL === 0 && suplusR === 0) {
+      result.push(track.join(''))
+      return 
+    }
+
+    track.push('(')
+    backtrack(supPlusL - 1, suplusR, [...track], result)
+    track.pop()
+
+    track.push(')')
+    backtrack(supPlusL, suplusR - 1, [...track], result)
+    track.pop()
+  }
+
+  backtrack(n, n, track, result)
+  return result
+}
