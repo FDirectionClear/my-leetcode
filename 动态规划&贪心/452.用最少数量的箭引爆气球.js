@@ -5,7 +5,7 @@
 	取交集 [Math.max(a, min), Math.min(b, max)]
 	如果当前集合和成员有交集就更新成员为最新交集，没有交集就做成员
 */
-var findMinArrowShots = function(points) {
+var findMinArrowShots1 = function(points) {
 	if (points.length <= 0) return 0
 	const sections = [points[0]]
 	for(let i = 1, len = points.length; i < len; i ++) {
@@ -40,5 +40,35 @@ console.log(
 	// findMinArrowShots(points1),
 	// findMinArrowShots(points2),
 	// findMinArrowShots(points3),
-	findMinArrowShots(points4)
+	// findMinArrowShots(points4)
+)
+
+/*
+答案思路：这种做法比较难想到。总结可能实用的技巧如下：
+1. 区间问题，可以尝试对每个区间节点进行排序，来减少更多需要考虑的变量：
+	1）这道题对区间尾部进行从小到大排序，按顺序遍历，就能轻松保证，开始起点是否<目前重叠区间的最小结束点 的区间都有重合在一起的部分。eg：[1,5],[3,8]
+	2）如果不这么做，就很难找到 目前重叠区间的最小结束点 这个变量。
+*/
+var findMinArrowShots = function (points) {
+    if (!points.length) {
+        return 0;
+    }
+
+    points.sort((a, b) => a[1] - b[1]); //按照区间结尾排序
+    let pos = points[0][1];
+    let ans = 1;
+    for (let balloon of points) {
+        if (balloon[0] > pos) {
+            //如果后面一个区间的开始大于前一个区间的结尾 就需要新增一支箭
+            pos = balloon[1]; //更新pos为新的区间的结尾
+            ans++;
+        }
+    }
+    return ans;
+};
+
+
+const points = [[1,5], [3,8], [8,10], [9, 12]]
+console.log(
+	findMinArrowShots(points)
 )
