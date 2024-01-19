@@ -36,6 +36,10 @@ var exist = function(board, word) {
 /**
  * 题解答案：
  *  其实思路和我的思路是一样的。上面的程序还需要调试。
+ * 
+ *  树状图画出来，某个根节点下可能会并行很多支线，但不要担心，js是单线程的，
+ *  visited大胆的设置，不需要作为参数带入每一次的回溯。但需要注意在剪枝后
+ *  要及时的重置visited状态。
  */
 var exist = function(board, word) {
   const h = board.length, w = board[0].length;//网格的长和宽

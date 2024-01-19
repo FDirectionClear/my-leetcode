@@ -35,6 +35,7 @@ const nums1 = [2,3,-2,4]
 const nums2 = [-2,0,-1]
 const nums3 = [-2,3,-4]
 const nums4 = [2,-5,-2,-4,3]
+const nums5 = [2,-5,2]
 
 console.log(
   maxProduct(nums1)

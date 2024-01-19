@@ -18,7 +18,7 @@ var isValidSudoku = function(board) {
       for(let j = 0;j < 9;j++){
           let num = board[i][j];
           if(num != '.'){//遇到有效的数字
-              let boxIndex = parseInt((i/3)) * 3 + parseInt(j/3);// 子数独序号
+              let boxIndex = parseInt((i/3)) + '-' + parseInt(j/3); // 找到boxIndex，为了方便理解，和教程上不一样。比如 1-2代表第1行第2个盒子
               if(rows[i+'-'+num] || columns[j+'-'+num] || boxes[boxIndex+'-'+num]){//重复检测
                   return false;
               }

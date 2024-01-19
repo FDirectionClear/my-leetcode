@@ -29,6 +29,7 @@ var generateParenthesis = function(n) {
   let track = []
   backtrack(n, n, track, res) // 回溯参数有什么需要定义好
   return res
+  
   function backtrack(left, right, track, res) {
       // 数量小于0，不合法
       if (left < 0 || right < 0) return /** 回溯终止条件1，退出条件，说明当前子问题没有后续潜力，不符合要求，会回到上一个循环 */

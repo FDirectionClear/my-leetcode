@@ -40,6 +40,7 @@ const maxProfit3 = function (prices) {
 };
 
 
+ // 这个是我认为的最优解
 const maxProfit = function(prices) {
   if (prices.length < 1) return 0
   const profits = [0]

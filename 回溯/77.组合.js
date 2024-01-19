@@ -1,12 +1,12 @@
 // backtrack(main, )
-// backtrack([[1]], 2)  backtrack([[1,2]], 1)  backtrack([1,2,3], 0)
+// backtrack([1], 2)  backtrack([1,2], 1)  backtrack([1,2,3], 0)
 //                                             backtrack([1,2,4], 0)
 //                                             backtrack([1,2,5], 0)
 //                                             ...
-//                      backtrack([[1,3]], 1) 
-//                      backtrack([[1,4]], 1) 
+//                      backtrack([1,3], 1) 
+//                      backtrack([1,4], 1) 
 //                      ...
-// backtrack([[2]], 2)
+// backtrack([2], 2)
 // ...
 
 /**
@@ -66,3 +66,6 @@ var n = 4, k = 2
 console.log(
   combine(n, k)
 )
+
+
+function  
