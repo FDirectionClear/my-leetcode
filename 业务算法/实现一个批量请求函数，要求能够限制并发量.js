@@ -37,3 +37,22 @@ function multiRequest(urls = [], maxNum) {
 const list = new Array(14).fill('http').map((item, index) => item + (index + 1))
 
 multiRequest(list, 6)
+
+
+
+
+
+
+
+
+const obj = {
+ name: '方向明'
+ fn1: () => console.log(this),
+ fn2: function() {console.log(this.name)}
+}
+
+obj.fn1();
+obj.fn2();
+
+
+const y = new obj.fn2();
