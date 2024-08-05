@@ -13,24 +13,27 @@ class TreeNode {
  */
 // 广度优先遍历
 function bfs(root) {
-  if (!root) return []
-  const result = []
-  const queue = [root]
+  if (!root) return [];
+  const result = [];
+  const queue = [root];
 
-  while(queue.length) {
-    const node = queue.shift()
-    result.push(node.val)
-    if (node.left) queue.push(node.left)
-    if (node.right) queue.push(node.right)
+  while (queue.length) {
+    const node = queue.shift();
+    result.push(node.val);
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
   }
 
-  return result
+  return result;
 }
 
 /**
  * dfs用递归处理就很简单了
+ * 实际上深度优先遍历分为3种，就是我们所说的前中后序遍历；
+ * 深度优先遍历和前中后序遍历是相同的概念的。不是两种不同的方法
  */
 function dfs(root) {
+  // 这就是个明显的前序遍历
   if (!root) return [];
   const result = [];
   const dfsVisit = (node) => {

@@ -6,25 +6,11 @@
  *     this.right = (right===undefined ? null : right)
  * }
  */
-/**
- * @param {TreeNode} root
- * @return {number[]}
- */
-var preorderTraversal = function (root) {
-  if (!root) return [];
-  const res = [];
 
-  function traverse(r) {
-    res.push(r.val);
-    if (r.left) {
-      traverse(r.left);
-    }
-    if (root.right) {
-      traverse(r.right);
-    }
-  }
+7, (8)
+[(3, 5, 6, 2)]; // 前序遍历找到7所经历的节点
 
-  traverse(root);
+6,4
+[3,5] // 找到6
+[3,5,6,2] // 找到4 
 
-  return res;
-};
