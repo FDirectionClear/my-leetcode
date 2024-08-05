@@ -1,9 +1,30 @@
-dp[i][j] = Math.min(dp[i][j - 1], dp[i-1][j]) + nums[i][j];
-i > 1;
-j > 1;
-dp[i][j] = Math.min(dp[i][j - 1]) + nums[i][j];
-i < 1;
-dp[i][j] = Math.min(dp[i-1][j]) + nums[i][j];
-j < 1;
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[]}
+ */
+var preorderTraversal = function (root) {
+  if (!root) return [];
+  const res = [];
 
-dp[0][0] = 1;
+  function traverse(r) {
+    res.push(r.val);
+    if (r.left) {
+      traverse(r.left);
+    }
+    if (root.right) {
+      traverse(r.right);
+    }
+  }
+
+  traverse(root);
+
+  return res;
+};

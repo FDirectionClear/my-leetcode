@@ -26,42 +26,46 @@
 
  */
 
-const lengthOfLongestSubstring = function(s) {
-  const members = new Set()
-  let maxLength = 0
-  let L = R = 0
-  let len = s.length
+/*
+  窗口内的总是符合要查找的规则的。并且窗口内的和窗口外的不能构成关系，因为窗口外的无法判断和窗口内的
+  是否达成规则。
+  eg: 
+  1. 判断最长回文子串就不适合，因为窗口内的子串不满足回文子串你也不能通过右移左指针来释放元素，只能不断地右移右指针来扩张窗口。因为你不知道窗口内的能不能和窗口外的构成回文子串，他需要结合窗口外的元素才能判断。
+  2. 无重复字符的最长子串就适用滑动窗口法，因为窗口内的总是符合条件的，无论是排除左边的还是扩张右边的，
+  总是能保证里面是无重复子串。
+ */
 
-  for (R; R < len; R ++) { // 要先移动右边界，尝试扩张区间
+const lengthOfLongestSubstring = function (s) {
+  const members = new Set();
+  let maxLength = 0;
+  let L = (R = 0);
+  let len = s.length;
+
+  for (R; R < len; R++) {
+    // 要先移动右边界，尝试扩张区间
     if (!members.has(s[R])) {
-      members.add(s[R])
-      maxLength = Math.max(members.size, maxLength) // 右边界扩张要不断更新最大长度
+      members.add(s[R]);
+      maxLength = Math.max(members.size, maxLength); // 右边界扩张要不断更新最大长度
     } else {
       while (members.has(s[R])) {
-        members.delete(s[L]) // 如果右重复，那就要尝试不断缩减左边界，直到将发生重复的点之前的部分截断，此时截断的包括那个发生重复的点
-        L ++
+        members.delete(s[L]); // 如果右重复，那就要尝试不断缩减左边界，直到将发生重复的点之前的部分截断，此时截断的包括那个发生重复的点
+        L++;
       }
-      members.add(s[R]) // 这一部很关键，清除掉和当前点发生重复的片段后，不要忘记将当前的点放入
+      members.add(s[R]); // 这一部很关键，清除掉和当前点发生重复的片段后，不要忘记将当前的点放入
     }
   }
 
-  return maxLength
+  return maxLength;
 };
 
-var s = "abcabcbb"
-console.log(
-  lengthOfLongestSubstring(s)
-)
+var s = "abcabcbb";
+console.log(lengthOfLongestSubstring(s));
 
-var s = "bbbbb"
-console.log(
-  lengthOfLongestSubstring(s)
-)
+var s = "bbbbb";
+console.log(lengthOfLongestSubstring(s));
 
-var s = "pwwkew"
-console.log(
-  lengthOfLongestSubstring(s)
-)
+var s = "pwwkew";
+console.log(lengthOfLongestSubstring(s));
 
 /**
  * 总结：
