@@ -46,3 +46,92 @@ var longestCommonSubsequence = function(text1, text2) {
   }
   return dp[m][n];
 };
+
+
+
+// 给定两个字符串 text1 和 text2，返回这两个字符串的最长 公共子序列 的长度。如果不存在 公共子序列 ，返回 0 。
+
+// 一个字符串的 子序列 是指这样一个新的字符串：它是由原字符串在不改变字符的相对顺序的情况下删除某些字符（也可以不删除任何字符）后组成的新字符串。
+
+// 例如，"ace" 是 "abcde" 的子序列，但 "aec" 不是 "abcde" 的子序列。
+// 两个字符串的 公共子序列 是这两个字符串所共同拥有的子序列。
+
+ 
+
+// 示例 1：
+
+// 输入：text1 = "abcde", text2 = "ace" 
+// 输出：3  
+// 解释：最长公共子序列是 "ace" ，它的长度为 3 。
+// 示例 2：
+
+// 输入：text1 = "abc", text2 = "abc"
+// 输出：3
+// 解释：最长公共子序列是 "abc" ，它的长度为 3 。
+// 示例 3：
+
+// 输入：text1 = "abc", text2 = "def"
+// 输出：0
+// 解释：两个字符串没有公共子序列，返回 0 。
+
+// abcde fbghbdibjklmn
+// bd
+// res = []
+// substart=0
+// i j=substart
+// 0a 0
+//    1
+//    ...
+// 1b 0
+//    1b
+//      i=1 j=1 res=[b] substart=j+1=2
+//      break
+// 2c 
+//   j=substart=2 g
+//   3h
+//   ...
+// 3d
+//   j=substart=2 g
+//   ...
+//   5d
+//     i=3 j=5 res=[b,d] substart=j+1=6
+//     break
+// 4e
+//   j=substart=6 i
+//   ...
+
+// return substart
+
+const text1 = "oxcpqrsvwf"
+const text2 = "shmtulqrypy"
+
+/**
+ * 实际上算理错了，只通过了部分测试用例
+ * 这道题有动态规划的味道很浓，但没找到动态转移方程是什么。
+ * 看了萧晨的解答后，发现确实是动态规划，但他给出的动态转移方程非常复杂，
+ * 因为时间有限，不在纠缠。
+ */
+var longestCommonSubsequence = function(text1, text2) {
+  if (text1.length > text2.length) {
+    [text2, text1] = [text1, text2]
+  }
+  let res = []
+  let substart = 0
+
+  for(let i = 0, text1len = text1.length; i < text1len; i ++) {
+    for(let j = substart, text2len = text2.length; j < text2len; j ++) {
+      if (text1[i] === text2[j]) {
+        res.push(text1[i])
+        substart = j + 1
+        break
+      }
+    }
+  }
+  return res.length
+};
+
+console.log(longestCommonSubsequence(text1, text2))
+
+
+
+
