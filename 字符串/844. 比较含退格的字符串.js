@@ -19,17 +19,19 @@
 // 解释：s 会变成 "c"，但 t 仍然是 "b"。
 
 var backspaceCompare = function (s, t) {
-  const backspaceHandle = (str) => {
-    const result = [];
+  if (s === t) return true;
+
+  function backHandledStr(str) {
+    const curr = [];
     for (let i = 0, len = str.length; i < len; i++) {
       if (str[i] !== "#") {
-        result.push(str[i]);
+        curr.push(str[i]);
       } else {
-        result.pop();
+        curr.pop();
       }
     }
-    return result.join("");
-  };
+    return curr.join("");
+  }
 
-  return backspaceHandle(s) === backspaceHandle(t);
+  return backHandledStr(s) === backHandledStr(t);
 };
