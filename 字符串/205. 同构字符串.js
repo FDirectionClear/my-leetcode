@@ -28,4 +28,21 @@
  * @param {string} t
  * @return {boolean}
  */
-var isIsomorphic = function (s, t) {};
+var isIsomorphic = function (s, t) {
+  const map = {};
+  const valueSet = new Set([]);
+
+  for (let i = 0, len = s.length; i < len; i++) {
+    if (map[s[i]] === undefined && !valueSet.has(t[i])) {
+      map[s[i]] = t[i];
+      valueSet.add(t[i]);
+    } else if (
+      map[s[i]] !== t[i] ||
+      (map[s[i]] === undefined && valueSet.has[t[i]])
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+};
