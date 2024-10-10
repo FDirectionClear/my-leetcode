@@ -11,7 +11,10 @@ function mockPost(url) {
   })
 }
 
-function multiRequest(urls = [], maxNum) {
+/**
+ * 方法一、方法二都行，思路都是一样的
+ */
+function multiRequest1(urls = [], maxNum) {
   let doingCount = 0
 
   function requestSimple() {
@@ -34,25 +37,24 @@ function multiRequest(urls = [], maxNum) {
   requestSimple()
 }
 
-const list = new Array(14).fill('http').map((item, index) => item + (index + 1))
 
-multiRequest(list, 6)
+function multiRequest2(urls = [], maxNum) {
+  let count = 0
+  
+  function requestSimple() {
+    if (count + 1 > maxNum || !urls.length) return
+    const url = urls.pop()
+    count++
+    mockPost(url).then(() => {
+      count--
+      requestSimple()
+    })
+    requestSimple()
+  }
 
-
-
-
-
-
-
-
-const obj = {
- name: '方向明'
- fn1: () => console.log(this),
- fn2: function() {console.log(this.name)}
+  requestSimple()
 }
 
-obj.fn1();
-obj.fn2();
+const list = new Array(14).fill('http').map((item, index) => item + (index + 1))
 
-
-const y = new obj.fn2();
+multiRequest2(list, 6)
