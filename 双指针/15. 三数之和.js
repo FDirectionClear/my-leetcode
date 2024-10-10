@@ -23,3 +23,5 @@ var threeSum = function(nums) {
   }        
   return ans;
 };
+
+[0,0,0,1,2,0,-3]
