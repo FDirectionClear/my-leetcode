@@ -1,8 +1,9 @@
 // 实现一个计算器函数，输入任一个string类型的四则运算表达式，输出表达式的运算结果。
 // 如：“4+2*3/2”，输出7
 
-// 下面的思路是对的，但是在字符串裁剪上有问题，所以结果不正确，懒得调试了
-function calculate(str) {
+// 通过递归去先算乘除，再算加减法是可以的。只是在字符串裁剪上有问题，懒得调试了，思路绝对正确
+// 因为考虑了很多边界条件所以代码看上去很复杂。不建议这么做，但是思路是清晰正确的。
+function calculate1(str) {
   if (str.length <= 0) return NaN;
   // 先算乘除，得到表达式
   const chengchu = (s) => {
@@ -93,15 +94,101 @@ function calculate(str) {
   return calcJianjian;
 }
 
-const str = "4+2*3/2";
-console.log(calculate(str)); // 7
+// const str = "4+21*3/2-5";
+// console.log(calculate(str)); // 7
+
+//  21 3 2
+// + * /
+
+// 4 63 2
+// + /
+
+// 4 31.5
+// +
+
+// 35.5
+// [].length==0
+// return 35.5
+
+// jiajian = []
+
+// ['4 21 3 2 5'] => [4,21,3,2,5]
+// ['+', '*', '/', '-']
+
+// [4 63 2 5]
+// ['+', '/' '-']
+
+// [4 31.5 5]
+// ['+', '-']
+
+// [35.5 5]
+// ['-']
+
+// [30.5]
+// []
+// return 30.5
 
 // const str1 = "4+2*3";
 // console.log(calculate(str1)); // 10
 
-// const str2 = "4+2-1";
-// console.log(calculate(str2)); // 5
+/**
+ * 重新实现了一个方法，可以运行正确，这个方法比上面的实现简单，但没有考虑边界条件（后来认为计算器不会输入什么非标准格式，不然处理的边界情况就太复杂了）。
+ * 思路差不多相同，没有使用递归，还是先算乘除，再算加减。思路清晰。演算过程推导如上面草纸所示。
+ */
+function calculate(str) {
+  let nums = [],
+    flags = [];
+  Array.from(str).forEach((item) => {
+    if (["+", "-", "*", "/"].includes(item)) {
+      // 如果当前符号是运算符
+      flags.push(item);
+    } else {
+      nums.push(+item); // 都变成数字
+    }
+  });
 
-// const str3 = "+4+2-4/2+3*4*2--";
-// const str3 = "4+2-4/2+3*4*2";
-// console.log(calculate(str3)); //28
+  let i = 0;
+  while (i < flags.length) {
+    // 先算乘除
+    let flag = flags[i];
+
+    if (flag === "*") {
+      nums.splice(i, 2, nums[i] * nums[i + 1]); // 替换nums中的计算结果
+      flags.splice(i, 1);
+    } else if (flag === "/") {
+      nums.splice(i, 2, nums[i] / nums[i + 1]);
+      flags.splice(i, 1);
+    } else {
+      i++;
+    }
+  }
+
+  let j = 0;
+  while (j < flags.length) {
+    // 再算加减
+    let flag = flags[j];
+    if (flag === "+") {
+      nums.splice(j, 2, nums[j] + nums[j + 1]); // 替换nums中的计算结果
+      flags.splice(j, 1);
+    } else if (flag === "-") {
+      nums.splice(j, 2, nums[j] - nums[j + 1]);
+      flags.splice(j, 1);
+    } else {
+      j++;
+    }
+  }
+
+  return nums[0];
+}
+
+const str1 = "4+2*3";
+console.log(calculate(str1)); // 10
+
+const str2 = "4+2-1";
+console.log(calculate(str2)); // 5
+
+const str3 = "4+2-4/2+3*4*2";
+console.log(calculate(str3)); // 28
+
+const str4 = "1";
+console.log(calculate(str4)); // 1
