@@ -134,18 +134,22 @@ function calculate1(str) {
 /**
  * 重新实现了一个方法，可以运行正确，这个方法比上面的实现简单，但没有考虑边界条件（后来认为计算器不会输入什么非标准格式，不然处理的边界情况就太复杂了）。
  * 思路差不多相同，没有使用递归，还是先算乘除，再算加减。思路清晰。演算过程推导如上面草纸所示。
+ *
+ * 但是咋力扣中找到同类题型，结果超时，时间复杂度为O(3N)，所以是O(N)
  */
 function calculate(str) {
-  let nums = [],
+  let nums = "",
     flags = [];
   Array.from(str).forEach((item) => {
     if (["+", "-", "*", "/"].includes(item)) {
       // 如果当前符号是运算符
       flags.push(item);
-    } else {
-      nums.push(+item); // 都变成数字
+      nums += " ";
+    } else if (item !== " ") {
+      nums += item; // 如果不是空格，就都变成数字
     }
   });
+  nums = nums.split(" ").map((item) => +item); // 转换为，且都转换成数字类型，方便后续计算
 
   let i = 0;
   while (i < flags.length) {
@@ -190,5 +194,5 @@ console.log(calculate(str2)); // 5
 const str3 = "4+2-4/2+3*4*2";
 console.log(calculate(str3)); // 28
 
-const str4 = "1";
-console.log(calculate(str4)); // 1
+const str4 = "42";
+console.log(calculate(str4)); // 42
