@@ -1,53 +1,43 @@
 /**
- * 可见学习笔记：https://yphwhoca2u.feishu.cn/docx/JjICd8xfKoBBiexpZjscaiTLn0e
+ * 这个做法能实现，但是curriedSum会变成单例的，当满足调用回调函数后就作废了。
  */
-/**
- * 实现一个函数 curry，支持代入一个明确形参数量的函数，返回这个函数的柯里化结果。
- */
+function curry1(fn) {
+  let args = [];
+  return function curried(...preArgs) {
+    args = args.concat(preArgs);
 
-function sum(a,b,c,d) {
-  // debugger
-    return a + b + c + d
-}
-
-const curriedSum = curry(sum)
-
-/**下面都会返回14*/
-console.log(curriedSum(2,3,4,5)) 
-console.log(curriedSum(2)(3)(4)(5))
-console.log(curriedSum(2,3)(4)(5))
-console.log(curriedSum(2,3,4)(5))
-
-/**
- * 下面这是我写的，缺点是每次curry后的结果都是一个单例，不能多次复用，因为他们共享allArgs。
- * 优点是容易理解，面试时候容易写出来
- */
-function curry(fn) {
-  let needArgsLen = fn.length
-  let allArgs = []
-
-  return function curried (...args) {
-    allArgs = allArgs.concat(args)
-    if (args.length < needArgsLen) {
-      needArgsLen = Math.max(needArgsLen - args.length, 0)
-      return curried
+    if (args.length < fn.length) {
+      return curried;
     } else {
-      return sum(...allArgs) 
+      return fn.apply(null, args);
     }
-  }
+  };
 }
 
 /**
- * 优点是更简洁，没有单例的限制。
- * 但是使用了bind函数，不容易想到。可以尝试背下来。
+ * 这种做法就不是单例的，可以反复使用。关键点使用了bind特性。
+ *
+ * tip: 是单例的问题在于，上面的解法通过维护了一个args的闭包变量。如果能避免维护这个args，就能解决单例问题。
+ * 但是解决办法光是在脑子里想是很难想出来的。你需要先动动手，删除这个args，然后尝试性的编写，可以想到什么就先写什么，
+ * 然后就会发现，我们很容易就能想到了这个bind办法。正所谓“好记性不如烂笔头~”。
  */
-
 function curry(fn) {
   return function curried(...args) {
-    if (args.length >= fn.length) {
-      return fn(...args)
+    if (args.length < fn.length) {
+      return curried.bind(null, ...args);
     } else {
-      return curried.bind(this, ...args)
+      return fn.apply(null, args);
     }
-  }
+  };
 }
+
+function sum(a, b, c, d) {
+  return a + b + c + d;
+}
+
+const curriedSum = curry(sum);
+/**下面都会返回14*/
+console.log(curriedSum(2, 3, 4, 5));
+console.log(curriedSum(2)(3)(4)(5));
+console.log(curriedSum(2, 3)(4)(5));
+console.log(curriedSum(2, 3, 4)(5));
