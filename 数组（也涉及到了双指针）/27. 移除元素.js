@@ -29,6 +29,9 @@
 // ❌ 示例：新建一个数组存储结果，再复制回原数组。
 // ❌ 示例：使用递归且递归栈深度与输入规模相关（导致隐式 O(n) 空间）。
 
+/**
+ * 这个做法算是借用js的splice了
+ */
 var removeElement = function (nums, val) {
   let i = 0,
     noEqualCount = 0;
@@ -44,3 +47,45 @@ var removeElement = function (nums, val) {
 
   return noEqualCount;
 };
+
+/**
+ * 补充一个不需要splice的做法（自己的做法，双指针-首尾指针法）
+ */
+var removeElement2 = function (nums, val) {
+  const len = nums.length;
+  let k = 0;
+  let left = 0;
+  let right = len - 1;
+  // 操作n次，n=nums的长度，用for循环去控制，当然这里也可以用while循环判断left<=right去控制
+  for (let i = 0; i < len; i++) {
+    if (nums[left] !== val) {
+      left++;
+      k++;
+    } else {
+      let temp = nums[left];
+      nums[left] = nums[right];
+      nums[right] = temp;
+      right--;
+    }
+  }
+
+  console.log(k, nums);
+  return k;
+};
+
+/**
+ * 补充一个课程中涉及到的双指针法（双指针-快慢指针）
+ * 这个方法不好理解，左指针内的是要返回的“新数组”。右指针则承担寻找“新数组”中的元素的任务。只不过两个指针是在
+ * 同一个数组中操作的。可以将左指针内形成的“新数组”理解成一个全新的数组。
+ */
+var removeElement3 = function (nums, val) {
+  let k = 0;
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] != val) {
+      nums[k++] = nums[i];
+    }
+  }
+  return k;
+};
+
+removeElement2([3, 2, 2, 3], 3);
