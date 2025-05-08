@@ -23,6 +23,7 @@ var removeDuplicates = function (nums) {
 
 /**
  * 看题解，也可以用双指针尝试，于是自己想了一个双指针的做法，这个做法一下子就通过了所有测试用例
+ * TIP：原生方法也有时间复杂度和空间复杂度，万幸的是splice方法的空间复杂度是O(1)，空间复杂度是O(N)。在面试中如果实在没有更优雅的题解，可以忽视原生方法的复杂度，能写出来为最优先。
  */
 var removeDuplicates = function (nums) {
   if (nums.length === 1) return 1;
