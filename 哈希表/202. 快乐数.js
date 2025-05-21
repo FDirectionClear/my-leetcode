@@ -31,7 +31,7 @@
  * 2. “足够多的次数”一定存在么？难道不可能无穷无尽吗？
  *  1. 一定存在。eg:输入 674，那它过程中能得到的最大的结果不过是 9^2 + 9^2 + 9^2
  */
-https: var isHappy = function (n) {
+var isHappy = function (n) {
   let waitingAdd = splitNum(n);
   const maxCount = Math.pow(9, 2) * waitingAdd.length;
   const set = new Set([]);
