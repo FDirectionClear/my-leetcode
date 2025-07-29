@@ -5,21 +5,40 @@
  * 3. 边界值又是什么？
  */
 
-const maxProfit2 = function(prices) {
-  if (prices.length < 1) return 0
-  const min = [prices[0]]
-  const profits = [0]
-  
-  for(let i = 1, len = prices.length; i < len; i ++) {
-    profits[i] = Math.max(profits[i - 1], prices[i] - min[i - 1])
-    min[i] = Math.min(...prices.slice(0, i + 1)) // 注意这种写法会导致maxProfit2在执行时超时，因为Math.min也是循环遍历每一个数组，这时候要对min进行状态压缩处理，不然时间复杂度就是O(n^2)了，完全可以压缩到O(n)
+// 【可以最后看】首先这道题可以不通过动态规划完成，所以我认为这是最优解
+// 因为只能买一次，卖一次，所以这个问题可以抽象成，数组中最大值和最小值的差值（要求最小值在左）
+const maxProfit2 = function (prices) {
+  let maxProfit = 0; // 记录当前收益最大值
+  let minPrice = Infinity; // 记录截止当前，股价最低点
+
+  for (let i = 0, len = prices.length; i < len; i++) {
+    maxProfit = Math.max(prices[i] - minPrice, maxProfit); // 假设每天都卖，看看今天的股价和历史最低点的差值是否大于之前的最大差值，如果成立就更新收益最大值
+    minPrice = Math.min(prices[i], minPrice); // 在遍历的过程中，如果发现了新的历史最低点，就更新历史最低点。不要直接Math.max(...prices)，这样会使得时间复杂度飙升为O(n^2)，可能导致超时。这种事情在遍历的过程中就可以通过两两对比的方式搞定。
   }
-  
-  return Math.max(...profits)
+
+  return maxProfit;
+};
+
+// 动态规划
+const maxProfit = function (prices) {
+  const dp = []; // dp[i] 截止第i天之前的最大收益
+  let min = prices[0]; // 当前股价的历史最低点
+
+  dp[0] = 0;
+
+  for (let i = 1, len = prices.length; i < len; i++) {
+    // 到第i天了，要么操作，要么不操作
+    // 截止第i天之前的最大收益可能因为今天的股价而发生改变，所以每天都要重新计算一下当天和历史最低点的差值来和i-1天之前能获得的最大收益做对比，
+    // 如果更少了，那么第i天就不操作，延续dp[i-1]即可。
+    dp[i] = Math.max(dp[i - 1], prices[i] - min);
+    min = Math.min(prices[i], min);
+  }
+
+  return dp[prices.length - 1];
 };
 
 /**
- * https://xiaochen1024.com/courseware/60b4f11ab1aa91002eb53b18/61963bcdc1553b002e57bf13 
+ * https://xiaochen1024.com/courseware/60b4f11ab1aa91002eb53b18/61963bcdc1553b002e57bf13
  * 建议先完整的看完所有股票求解问题的视频课后再看下面的总结。
  * 我的理解和课程里讲的有点出入，课程里k被理解为“还可以交易k次”，这种理解我始终没明白，但是如果换成“截止到第i天已经交易了k次”，就瞬间理解了。
  * 总结：
@@ -33,32 +52,14 @@ const maxProfit3 = function (prices) {
   dp[0][0] = 0; //第0天不持有
   dp[0][1] = -prices[0]; //第0天持有
   for (let i = 1; i < n; i++) {
-      dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
-      dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
+    dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+    dp[i][1] = Math.max(dp[i - 1][1], -prices[i]);
   }
   return dp[n - 1][0];
 };
 
+let prices1 = [7, 1, 5, 3, 6, 4];
+let prices2 = [7, 6, 4, 3, 1];
 
- // 这个是我认为的最优解
-const maxProfit = function(prices) {
-  if (prices.length < 1) return 0
-  const profits = [0]
-  let min = prices[0] // 最小值很容易统计，在遍历过程中时刻跟踪寻找最小值，根本无需Math.min让内核在遍历一遍数组。
-  
-  for(let i = 1, len = prices.length; i < len; i ++) {
-    profits[i] = Math.max(profits[i - 1], prices[i] - min)
-    min = prices[i] < min ? prices[i] : min
-  }
-  
-  return Math.max(...profits)
-};
-
-let prices1 = [7,1,5,3,6,4]
-let prices2 = [7,6,4,3,1]
-
-console.log(maxProfit(prices1))
-console.log(maxProfit(prices2))
-
-
-
+console.log(maxProfit(prices1));
+console.log(maxProfit(prices2));
