@@ -1,45 +1,41 @@
-const combine = (n, k) => {
-  const group = []
-  for (let i = 1; i < n + 1; i ++) {
-    group.push(i)
-  }
-  const len = group.length
-  const results = []
+// [1,2,3,4]
 
-  const backtrace = (startIndex, endIndex, m) => {
-    debugger
-    if (endIndex - startIndex <= 0) return []
-    debugger
-    if (m <= 0) return []
-      debugger
-    if (m === 1) return group.slice(startIndex, endIndex).map(item => [item]) 
-      debugger
-    if (endIndex - startIndex + 1 === m) {
-      debugger
-      return [group.slice(startIndex, endIndex)]
-    } 
+// [1] [2 3 4]
+//             [1 2] [3 4]
+//                         [1 2 3] [4]
+//                         [1 2 4] []
+//             [1 3] [4]
+//                         [1 3 4] []
+//             [1 4] []
+// [2] [3 4]    [2 3] [4]
+// [3] [4]      [3 4] []
 
-    const results = []
+// [4] []       []
 
-    for (let i = startIndex, len = group.length; i < len; i ++) {
-      debugger
-      results.concat(
-        backtrace(startIndex + 1, len - 1, m - 1).map(item => results.push([group[startIndex], ...item]))
-      )
-      debugger
+/**
+ * 通过全部测试用例
+ */
+var combine = function (n, k) {
+  const result = [];
+  const group = Array.from({ length: n }).map((_, i) => i + 1);
+
+  const backtracking = (left, right) => {
+    if (left.length === k) {
+      result.push(left);
+      return;
     }
+    if (right.length === 0) {
+      return;
+    }
+    for (let i = 0, len = right.length; i < len; i++) {
+      const newCombiner = right.shift();
+      backtracking([...left, newCombiner], [...right]);
+    }
+  };
 
-    return results
-
+  for (let i = 0; i < n; i++) {
+    backtracking([], group);
   }
 
-  backtrace(0, len - 1, k)
-  return results
-}
-
-const n = 4, k = 2
-
-console.log(
-  combine(n, k)
-)
-
+  return result;
+};

@@ -1,18 +1,38 @@
-dp[i][0] = Math.max(dp[i - 1][1], dp[i - 1][0]);
-dp[i][1] = dp[i - 1][0] + nums[i];
+// [1,2,3,4]
 
-/**
- * @param {number[]} nums
- * @return {number}
- */
-var rob = function (nums) {
-  const dp = [[0, nums[0]]];
+// [1] [2 3 4]
+//             [1 2] [3 4]
+//                         [1 2 3] [4]
+//                         [1 2 4] []
+//             [1 3] [4]
+//                         [1 3 4] []
+//             [1 4] []
+// [2] [3 4]    [2 3] [4]
+// [3] [4]      [3 4] []
 
-  for (let i = 1, len = nums.length; i < len; i++) {
-    dp[i] = [];
-    dp[i][0] = Math.max(dp[i - 1][1], dp[i - 1][0]);
-    dp[i][1] = dp[i - 1][0] + nums[i];
+// [4] []       []
+
+var combine = function (n, k) {
+  const result = [];
+  const group = Array.from({ length: n }).map((_, i) => i + 1);
+
+  const backtracking = (left, right) => {
+    if (left.length === k) {
+      result.push(left);
+      return;
+    }
+    if (right.length === 0) {
+      return;
+    }
+    for (let i = 0, len = right.length; i < len; i++) {
+      const newCombiner = right.shift();
+      backtracking([...left, newCombiner], [...right]);
+    }
+  };
+
+  for (let i = 0; i < n; i++) {
+    backtracking([], group);
   }
 
-  return Math.max(dp[nums.length - 1][0], dp[nums.length - 1][1]);
+  return result;
 };
