@@ -1,38 +1,21 @@
-// [1,2,3,4]
-
-// [1] [2 3 4]
-//             [1 2] [3 4]
-//                         [1 2 3] [4]
-//                         [1 2 4] []
-//             [1 3] [4]
-//                         [1 3 4] []
-//             [1 4] []
-// [2] [3 4]    [2 3] [4]
-// [3] [4]      [3 4] []
-
-// [4] []       []
-
 var combine = function (n, k) {
-  const result = [];
-  const group = Array.from({ length: n }).map((_, i) => i + 1);
-
-  const backtracking = (left, right) => {
-    if (left.length === k) {
-      result.push(left);
+  // 回溯法
+  let result = [],
+    path = [];
+  let backtracking = (_n, _k, startIndex) => {
+    // 终止条件
+    if (path.length === _k) {
+      result.push(path.slice()); // copy一份，放入result
       return;
     }
-    if (right.length === 0) {
-      return;
-    }
-    for (let i = 0, len = right.length; i < len; i++) {
-      const newCombiner = right.shift();
-      backtracking([...left, newCombiner], [...right]);
+    // 循环本层集合元素
+    for (let i = startIndex; i <= _n; i++) {
+      // 这道题没什么需要对根节点和当前子节点特殊处理的逻辑
+      path.push(i); // 形成下一层backtracking的根节点
+      backtracking(_n, _k, i + 1); // 递归
+      path.pop(); // 将路径回溯成根节点的状态，方便下一轮for循环形成新的根节点
     }
   };
-
-  for (let i = 0; i < n; i++) {
-    backtracking([], group);
-  }
-
+  backtracking(n, k, 1);
   return result;
 };
