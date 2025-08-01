@@ -1,32 +1,21 @@
-// [a]
+["abc", "def", "ghi"];
 
-// [abc, def, ghi]
+// [a][def][ghi]
+//   [ad][ef][ghi]
+//     [adg][][hi]
+//     [adh][][i]
+//     [adi][][]
+//   [ae][f][ghi]
+//   [af][][ghi]
 
-// result = [abc]
-// [a] [def]
-//     [ad][ef]
-//     [ae][f]
-//     [af][]
-// [b] [def]
-//     [bd][ef]
-//     [be][f]
-//     [bf][]
-// [c] [def]
+// [b][def ghi]
 
-// ["ad","ae","af","bd","be","bf","cd","ce","cf"] [ghi]
+// [c][def ghi]
 
-// while
-
-// [ad] [ghi]
-//     [adg][hi]
-//     [adh][i]
-//     [adi][]
-// [ae] [ghi]
-//     ....
-
-// const results = []
-// const waitingCombine = []
-// const path = []
+backtracking = (groupIndex, startIndex) => {
+  path.push(map[groupIndex][startIndex]);
+  backtracking(groupIndex + 1, i + 1);
+};
 
 var letterCombinations = function (digits) {
   const letterMap = [
@@ -41,32 +30,27 @@ var letterCombinations = function (digits) {
     "tuv", // 8
     "wxyz", // 9
   ];
-  let results = [],
-    waitingCombine = digits.split("").map((dig) => letterMap[dig]); // 初始化的所有点的映射
+  const result = [],
+    path = [];
+  const group = digits
+    .split("")
+    .map((dig) => letterMap[dig])
+    .filter((item) => item !== "");
 
-  const backtracking = (target) => {
-    let tempResults = [];
-
-    if (results.length === 0) {
-      tempResults = target.split("");
-    } else {
-      for (let i = 0, len = results.length; i < len; i++) {
-        for (let j = 0, l = target.length; j < l; j++) {
-          tempResults.push(results[i] + target[j]);
-        }
-      }
+  const backtracking = (groupIndex) => {
+    const currGroup = group[groupIndex];
+    if (path.length === group.length) {
+      result.push(path.join(""));
+      return;
     }
-
-    results = tempResults;
+    for (let i = 0, len = currGroup.length; i < len; i++) {
+      path.push(currGroup[i]);
+      backtracking(groupIndex + 1);
+      path.pop();
+    }
   };
 
-  while (waitingCombine.length) {
-    const target = waitingCombine.shift();
-    backtracking(target); // 拿path中的每一个根节点去和currRight中的每一个字母做组合
-  }
-  return results;
+  backtracking(0);
+
+  return result;
 };
-
-const digits = "23";
-
-console.log(letterCombinations(digits));
