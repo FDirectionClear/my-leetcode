@@ -38,28 +38,29 @@ var dailyTemperatures = function (temperatures) {
 };
 
 /**
- * 暴力解法，不过还是超时了
+ * 暴力解法，不管能不能通过先写出来增加底气，正如所料，还是超时了
  */
-var dailyTemperaturesV2 = function (temperatures) {
+var dailyTemperatures = function (temperatures) {
   if (temperatures.length === 1) return [0];
-  const res = [];
+  const result = [];
 
   for (let i = 0, len = temperatures.length; i < len; i++) {
-    let target = temperatures[i];
+    if (i === len - 1) {
+      result.push(0);
+      break;
+    }
     for (let j = i + 1; j < len; j++) {
-      if (temperatures[j] > target) {
-        res.push(j - i);
+      if (temperatures[j] > temperatures[i]) {
+        result.push(j - i);
         break;
       }
       if (j === len - 1) {
-        res.push(0);
+        result.push(0);
       }
     }
   }
 
-  res.push(0);
-
-  return res;
+  return result;
 };
 
 /**
