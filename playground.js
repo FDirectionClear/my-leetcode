@@ -6,21 +6,15 @@ var dailyTemperatures = function (temperatures) {
   const noUpdateIdxs = []; // [2, 4, 5]
 
   for (let i = 0, len = temperatures.length; i < len; i++) {
-    debugger;
     let j = 0; // i = 6  temperatures[i]=72 j=1  noUpdateIdxs[j]=4 temperatures[noUpdateIdxs[j]]=69
     while (j < noUpdateIdxs.length) {
-      debugger;
       if (temperatures[i] > temperatures[noUpdateIdxs[j]]) {
-        debugger;
         result[noUpdateIdxs[j]] = i - noUpdateIdxs[j];
         noUpdateIdxs.splice(j, 1);
-        debugger;
         break;
       }
-      debugger;
       j++;
     }
-    debugger;
     noUpdateIdxs.push(i);
   }
 
