@@ -50,6 +50,7 @@ var nextGreaterElement2 = function (nums1, nums2) {
 // stack.push 2
 
 /**
+ *
  * 比较大小，数组，一个元素处理一次就没有后续处理必要了。所以这道题用单调栈的味道很明显
  *
  * 自己写的单调栈的写法，想了好久，实际上只关注nums2就行，找到全部答案后，只需要映射nums1就可以。
@@ -84,7 +85,6 @@ var nums1 = [4, 1, 2],
 //   nums2 = [1, 2, 3, 4];
 
 console.log(nextGreaterElement(nums1, nums2));
-
 /**
  * 代码随想录的答案，实际上和我的想法如出一辙
  */
