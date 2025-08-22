@@ -1,35 +1,64 @@
-// 输入: temperatures = [73,74,75,71,69,72,76,73]
-// 输出: [1,1,4,2,1,1,0,0]
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
 
-var dailyTemperatures = function (temperatures) {
-  const result = new Array(temperatures.length).fill(0);
-  const noUpdateIdxs = []; // [2, 4, 5]
+// 输入：root = [1,null,2,3]
 
-  for (let i = 0, len = temperatures.length; i < len; i++) {
-    let j = 0; // i = 6  temperatures[i]=72 j=1  noUpdateIdxs[j]=4 temperatures[noUpdateIdxs[j]]=69
-    while (j < noUpdateIdxs.length) {
-      if (temperatures[i] > temperatures[noUpdateIdxs[j]]) {
-        result[noUpdateIdxs[j]] = i - noUpdateIdxs[j];
-        noUpdateIdxs.splice(j, 1);
-        break;
-      }
-      j++;
-    }
-    noUpdateIdxs.push(i);
+class TreeNode {
+  constructor(val, left, right) {
+    this.val = val === undefined ? 0 : val;
+    this.left = left === undefined ? null : left;
+    this.right = right === undefined ? null : right;
   }
+}
+
+const root = {
+  val: 1,
+  left: null,
+  right: {
+    val: 2,
+    left: {
+      val: 3,
+      left: null,
+      right: null,
+    },
+    right: null,
+  },
+};
+
+// 中续遍历
+var inorderTraversal = function (root) {
+  const result = []; // 1 3 2
+
+  const traveral = (root) => {
+    if (root === null) return;
+    traveral(root.left);
+    result.push(root.val);
+    traveral(root.right);
+  };
+
+  traveral(root);
 
   return result;
 };
 
-var temperatures = [73, 74, 75, 71, 69, 72, 76, 73];
-console.log(dailyTemperatures(temperatures));
+console.log(inorderTraversal(root));
 
-// 遍历 73 i=0
-// noUpdateIndex = [0]
-
-// 遍历 74 i=1
-//   遍历noUpdateIndex j=0
-//   if temp[i] > temp[j]
-//     noUodateIndex删除第j个
-//     result[i] = i-j
-// noUpdateIndex.push(i)
+var inorderTraversal = function (root) {
+  let res = [];
+  const dfs = function (root) {
+    if (root === null) {
+      return;
+    }
+    dfs(root.left);
+    res.push(root.val);
+    dfs(root.right);
+  };
+  dfs(root);
+  return res;
+};
