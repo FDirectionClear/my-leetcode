@@ -1,10 +1,10 @@
 {
   "name": "my-leetcode-fxm",
   "version": "1.0.0",
-  "description": "1. 需要有一个美观的index目录，点击可以跳转到对应题目的对应页面，这样就可以直接调试，不需要自己手建html，然后手动引入script",
-  "main": "playground.js",
+  "description": "FDirectionClear的leetcode练习集",
+  "main": "index.html",
   "scripts": {
-    "test": "tsc --watch"
+    "start": "node dev"
   },
   "repository": {
     "type": "git",
@@ -16,7 +16,9 @@
     "url": "https://github.com/FDirectionClear/my-leetcode/issues"
   },
   "homepage": "https://github.com/FDirectionClear/my-leetcode#readme",
-  "dependencies": {
+  "devDependencies": {
+    "express": "^5.1.0",
+    "open": "^10.2.0",
     "typescript": "^5.9.2"
   }
 }
