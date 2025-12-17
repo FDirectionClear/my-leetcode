@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.static(path.join("./"))); // 提供node本地静态服务
 
-app.listen(3000, () => {
+app.listen(2025, () => {
   import("open").then(async ({ default: open }) => {
     try {
       let tsclog = spawn("tsc", ["--watch"]);
@@ -16,7 +16,7 @@ app.listen(3000, () => {
       tsclog.stdout.on("data", function (data) {
         console.log(data.toString());
         console.log(
-          "服务已经启动 http://localhost:3000/，自动打开浏览器，请手动修改index.html"
+          "服务已经启动 http://localhost:2025/，自动打开浏览器，请手动修改index.html"
         );
       });
 
@@ -24,7 +24,7 @@ app.listen(3000, () => {
         console.log("出现错误");
       });
 
-      await open("http://localhost:3000/");
+      await open("http://localhost:2025/");
     } catch (err) {
       console.log("出现错误");
       console.log(err);

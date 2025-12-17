@@ -58,5 +58,3 @@ function prefixSum(source, ...sections) {
 
   return results;
 }
-
-console.log(prefixSum([1, 2, 3, 4, 5], [0, 1], [1, 3]));
