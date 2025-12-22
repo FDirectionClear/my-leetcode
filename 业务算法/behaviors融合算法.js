@@ -1,5 +1,3 @@
-/**假如只考虑合并，不考虑策略模式 */
-
 // {
 //   a: 'a1'
 //   c: 'c1'
@@ -102,8 +100,8 @@ function mergeBehaviors(options) {
     return options;
   }
 
-  let result = {};
-  let behaviorsMergedResult = {};
+  let result = {}; // 所有behaviors和当前option合并的最终结果
+  let behaviorsMergedResult = {}; // 所有behaviors的合并结果
 
   // 把behaviors中的所有子behavior的嵌套behavior都完成深度合并，得到无嵌套的结果
   behaviors = behaviors.map((behavior) => {
@@ -235,13 +233,3 @@ const opt = {
 let compOption = mergeBehaviors(opt);
 
 console.log(compOption);
-
-// 预期答案
-// {
-//     "name": "opt",
-//     "prop1": "prop1",
-//     "opt1_1": "opt2_1",
-//     "opt1_2": "opt1_2",
-//     "prop2": "prop2",
-//     "prop": "prop"
-// }

@@ -1,44 +1,50 @@
-// 最大循环num.length * 9^2次
-// 用hash表判断每次看有没有循环
-
-var isHappy = function (n: number) {
-  const maxCount = n.toString().length * Math.pow(9, 2)
-  const set = new Set([n])
-  let currNum = n
-
-  for (let i = 0; i <= maxCount; i ++) {
-    const splitNumStack = currNum.toString().split('')
-    let sum = 0
-
-    while (splitNumStack.length) {
-      sum = Math.pow(+(splitNumStack.pop()!), 2) + sum
-    }
-
-    if (sum === 1) {
-      return true
-    }
-
-    if (set.has(sum)) {
-      return false
-    }
-
-    set.add(sum)
-    currNum = sum
-  }
-
-  return false
+// src/types/index.ts
+export interface BSLRequest {
+  url: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+  data?: any;
+  headers?: Record<string, string>;
 }
 
-console.log(isHappy(19))
-console.log(isHappy(2))
+export interface BSLResponse<T = any> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  code: number;
+}
 
-// 2
-// 4
-// 1 6 = 1 + 36
-// 3 7 = 9+49= 58
-// 5 8 = 25 + 64 = 89
-// 8 9 = 64 81 = 145
-// 1 4 5 = 1 + 16 + 25 = 42
-// 4 2 = 16 + 4 = 20
-// 2 0 = 4 + 0 = 4
-// .
+export type RequestHandler = (request: BSLRequest) => Promise<BSLResponse>;
+
+// 协议：接受固定的参数格式，返回promise，promise如果resolve要返回请求结果 eg: {code:0, data: {...}}
+// 🐛 如果接口错误，reject的东西无所谓，因为bsl内会讲reject的错误原封不动的reject
+
+// src/core/bslService.ts
+export class BSLService {
+  private requestHandler: RequestHandler;
+  private baseURL: string;
+
+  constructor(config: { 
+    baseURL: string;
+    requestHandler: RequestHandler; 
+  }) {
+    this.baseURL = config.baseURL;
+    this.requestHandler = config.requestHandler; // 用户传入包含自己基建的个性化请求实例，比如：Taro就是模拟axios实现的request实例
+  }
+
+  async getUserProfile(userId: string) {
+    // 直接按照规定的参数传入，直接return，后面怎么走，无论是正确还是报错，会经过哪些基建，都交给各C端去处理
+    const res = await this.requestHandler({
+      url: `${this.baseURL}/user/profile`,
+      method: 'POST',
+      data: { userId }
+    });
+  }
+
+  async submitFormData(formData: any) {
+    return this.requestHandler({
+      url: `${this.baseURL}/form/submit`,
+      method: 'POST',
+      data: formData
+    });
+  }
+}
