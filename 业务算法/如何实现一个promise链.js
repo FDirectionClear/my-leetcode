@@ -17,3 +17,5 @@ function chainPromise2(fns, initValue) {
 
     return p
 }
+
+
