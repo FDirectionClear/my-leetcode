@@ -57,3 +57,7 @@ var reverseWords = function (s) {
 // res = [sky, the]
 // start = 0
 // ...
+
+var reverseWords = function (s) {
+  if (s.length) {}
+};
