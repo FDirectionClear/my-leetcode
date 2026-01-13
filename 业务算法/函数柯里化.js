@@ -1,18 +1,18 @@
 /**
  * 这个做法能实现，但是curriedSum会变成单例的，当满足调用回调函数后就作废了。
  */
-function curry1(fn) {
-  let args = [];
-  return function curried(...preArgs) {
-    args = args.concat(preArgs);
+// function curry1(fn) {
+//   let args = [];
+//   return function curried(...preArgs) {
+//     args = args.concat(preArgs);
 
-    if (args.length < fn.length) {
-      return curried;
-    } else {
-      return fn.apply(null, args);
-    }
-  };
-}
+//     if (args.length < fn.length) {
+//       return curried;
+//     } else {
+//       return fn.apply(null, args);
+//     }
+//   };
+// }
 
 /**
  * 这种做法就不是单例的，可以反复使用。关键点使用了bind特性。
@@ -21,15 +21,15 @@ function curry1(fn) {
  * 但是解决办法光是在脑子里想是很难想出来的。你需要先动动手，删除这个args，然后尝试性的编写，可以想到什么就先写什么，
  * 然后就会发现，我们很容易就能想到了这个bind办法。正所谓“好记性不如烂笔头~”。
  */
-function curry(fn) {
-  return function curried(...args) {
-    if (args.length < fn.length) {
-      return curried.bind(null, ...args);
-    } else {
-      return fn.apply(null, args);
-    }
-  };
-}
+// function curry(fn) {
+//   return function curried(...args) {
+//     if (args.length < fn.length) {
+//       return curried.bind(null, ...args);
+//     } else {
+//       return fn.apply(null, args);
+//     }
+//   };
+// }
 
 function sum(a, b, c, d) {
   return a + b + c + d;
@@ -41,3 +41,16 @@ console.log(curriedSum(2, 3, 4, 5));
 console.log(curriedSum(2)(3)(4)(5));
 console.log(curriedSum(2, 3)(4)(5));
 console.log(curriedSum(2, 3, 4)(5));
+
+function curry(fn) {
+  return function curried(...args) {
+    if (args.length < fn.length) {
+      // 当前参数还未满
+
+      return curried.bind(null, ...args);
+    } else {
+      // 当前参数已经满了，直接执行fn
+      return fn(...args);
+    }
+  };
+}

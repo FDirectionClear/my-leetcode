@@ -8,7 +8,7 @@ function mockPost(url, res, duration = Math.random() * 1500) {
   return new Promise((resolve) => {
     console.log(`${url}请求开始 =>`);
     setTimeout(() => {
-      console.log(`${url}请求返回 <=`, res);
+      console.log(`${url}请求返回 <=`, res); 
       resolve(res);
     }, duration);
   });
