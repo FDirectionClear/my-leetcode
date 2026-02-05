@@ -70,3 +70,5 @@ function maxSubArray2(nums) {
 const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
 
 console.log(maxSubArray2(nums));
+
+console.log('1xiugai')

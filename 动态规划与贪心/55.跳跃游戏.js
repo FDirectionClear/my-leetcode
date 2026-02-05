@@ -100,3 +100,5 @@ var canJump3 = function (nums) {
 const nums = [2, 3, 1, 1, 4];
 
 console.log(canJump(nums));
+
+console.log('提交2')
