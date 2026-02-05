@@ -1,28 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>菲波那切数列</title>
+    <title>测试面板</title>
+    <style>
+      .container {
+        border: 2px red solid;
+        width: 60vw;
+      }
+      .header {
+        background: #ff7e00;
+        height: 500px;
+      }
+      .header-behind {
+        background: greenyellow;
+        height: 200px;
+      }
+      .header-inner {
+        background: rgba(0, 0, 255, 0.3);
+        position: sticky;
+        top: 100px;
+      }
+      .placeholder {
+        height: 500vh;
+        background: pink;
+        opacity: 0.3;
+      }
+    </style>
   </head>
 
   <body>
-    <h1>菲波那切数列</h1>
-    <div class="input-container">
-      <input placeholder="请输入信息" id="msg" />
-    </div>
-    <p>https://leetcode.cn/problems/fei-bo-na-qi-shu-lie-lcof/</p>
-
-    <input id="input" type="text" value="abc" />
-
-    <div id="parent">
-      <div id="child1"></div>
-      <div id="child2">
-        <div id="child2-1"></div>
-        <div id="child2-1"></div>
+    <div class="container">
+      <div class="header">
+        <div class="header-behind"></div>
+        <div class="header-inner">header</div>
       </div>
-      <div id="child3"></div>
+      <div class="placeholder"></div>
     </div>
   </body>
 
@@ -62,5 +77,5 @@
   <!-- <script src="./业务算法/实现一个带重试的fetch.js"></script> -->
   <!-- <script src="./业务算法/防抖节流函数带立即执行选项.js"></script> -->
   <!-- <script src="./业务算法/实现一个LRUCache缓存类.js"></script> -->
-  <script src="./业务算法/函数柯里化.js"></script>
+  <!-- <script src="./业务算法/函数柯里化.js"></script> -->
 </html>
